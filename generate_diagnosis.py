@@ -11,52 +11,26 @@ import json
 import sys
 import os
 
-# ── Font registration (cross-platform) ─────────────────────────────────────
-def find_font(names, fallback=None):
-    """Search common font directories for a TTF file."""
-    dirs = [
-        '/usr/share/fonts/truetype/liberation/',
-        '/usr/share/fonts/truetype/',
-        '/System/Library/Fonts/',
-        '/System/Library/Fonts/Supplemental/',
-        '/Library/Fonts/',
-        os.path.expanduser('~/Library/Fonts/'),
-    ]
-    for d in dirs:
-        for name in names:
-            path = os.path.join(d, name)
-            if os.path.exists(path):
-                return path
-    return fallback
-
-serif_reg = find_font(['LiberationSerif-Regular.ttf', 'Times New Roman.ttf', 'Georgia.ttf'])
-serif_bold = find_font(['LiberationSerif-Bold.ttf', 'Times New Roman Bold.ttf', 'Georgia Bold.ttf'])
-serif_ital = find_font(['LiberationSerif-Italic.ttf', 'Times New Roman Italic.ttf', 'Georgia Italic.ttf'])
-sans_reg = find_font(['LiberationSans-Regular.ttf', 'Helvetica.ttf', 'Arial.ttf'])
-sans_bold = find_font(['LiberationSans-Bold.ttf', 'Helvetica Bold.ttf', 'Arial Bold.ttf'])
-
-if serif_reg:
-    pdfmetrics.registerFont(TTFont('Serif', serif_reg))
-if serif_bold:
-    pdfmetrics.registerFont(TTFont('SerifBold', serif_bold))
-if serif_ital:
-    pdfmetrics.registerFont(TTFont('SerifItalic', serif_ital))
-if sans_reg:
-    pdfmetrics.registerFont(TTFont('Sans', sans_reg))
-if sans_bold:
-    pdfmetrics.registerFont(TTFont('SansBold', sans_bold))
-
-# Fallback to built-in fonts if TTF not found
-if not serif_reg:
-    pdfmetrics.registerFont(TTFont('Serif', 'Times-Roman'))
-if not serif_bold:
-    pdfmetrics.registerFont(TTFont('SerifBold', 'Times-Bold'))
-if not serif_ital:
-    pdfmetrics.registerFont(TTFont('SerifItalic', 'Times-Italic'))
-if not sans_reg:
-    pdfmetrics.registerFont(TTFont('Sans', 'Helvetica'))
-if not sans_bold:
-    pdfmetrics.registerFont(TTFont('SansBold', 'Helvetica-Bold'))
+# ── Font registration (auto-download Liberation fonts) ──────────────────────
+import urllib.request
+_font_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'fonts')
+os.makedirs(_font_dir, exist_ok=True)
+_fonts = {
+    'LiberationSerif-Regular.ttf': 'https://github.com/liberationfonts/liberation-fonts/raw/main/liberation-fonts-ttf-2.1.5/LiberationSerif-Regular.ttf',
+    'LiberationSerif-Bold.ttf': 'https://github.com/liberationfonts/liberation-fonts/raw/main/liberation-fonts-ttf-2.1.5/LiberationSerif-Bold.ttf',
+    'LiberationSerif-Italic.ttf': 'https://github.com/liberationfonts/liberation-fonts/raw/main/liberation-fonts-ttf-2.1.5/LiberationSerif-Italic.ttf',
+    'LiberationSans-Regular.ttf': 'https://github.com/liberationfonts/liberation-fonts/raw/main/liberation-fonts-ttf-2.1.5/LiberationSans-Regular.ttf',
+    'LiberationSans-Bold.ttf': 'https://github.com/liberationfonts/liberation-fonts/raw/main/liberation-fonts-ttf-2.1.5/LiberationSans-Bold.ttf',
+}
+for fname, url in _fonts.items():
+    fpath = os.path.join(_font_dir, fname)
+    if not os.path.exists(fpath):
+        urllib.request.urlretrieve(url, fpath)
+pdfmetrics.registerFont(TTFont('Serif',       os.path.join(_font_dir, 'LiberationSerif-Regular.ttf')))
+pdfmetrics.registerFont(TTFont('SerifBold',   os.path.join(_font_dir, 'LiberationSerif-Bold.ttf')))
+pdfmetrics.registerFont(TTFont('SerifItalic', os.path.join(_font_dir, 'LiberationSerif-Italic.ttf')))
+pdfmetrics.registerFont(TTFont('Sans',        os.path.join(_font_dir, 'LiberationSans-Regular.ttf')))
+pdfmetrics.registerFont(TTFont('SansBold',    os.path.join(_font_dir, 'LiberationSans-Bold.ttf')))
 
 BG       = HexColor('#0c0c0a')
 CARD     = HexColor('#131311')
