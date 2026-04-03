@@ -12,20 +12,8 @@ import sys
 import os
 
 # ── Font registration (auto-download Liberation fonts) ──────────────────────
-import urllib.request
+
 _font_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'fonts')
-os.makedirs(_font_dir, exist_ok=True)
-_fonts = {
-    'LiberationSerif-Regular.ttf': 'https://github.com/liberationfonts/liberation-fonts/raw/main/liberation-fonts-ttf-2.1.5/LiberationSerif-Regular.ttf',
-    'LiberationSerif-Bold.ttf': 'https://github.com/liberationfonts/liberation-fonts/raw/main/liberation-fonts-ttf-2.1.5/LiberationSerif-Bold.ttf',
-    'LiberationSerif-Italic.ttf': 'https://github.com/liberationfonts/liberation-fonts/raw/main/liberation-fonts-ttf-2.1.5/LiberationSerif-Italic.ttf',
-    'LiberationSans-Regular.ttf': 'https://github.com/liberationfonts/liberation-fonts/raw/main/liberation-fonts-ttf-2.1.5/LiberationSans-Regular.ttf',
-    'LiberationSans-Bold.ttf': 'https://github.com/liberationfonts/liberation-fonts/raw/main/liberation-fonts-ttf-2.1.5/LiberationSans-Bold.ttf',
-}
-for fname, url in _fonts.items():
-    fpath = os.path.join(_font_dir, fname)
-    if not os.path.exists(fpath):
-        urllib.request.urlretrieve(url, fpath)
 pdfmetrics.registerFont(TTFont('Serif',       os.path.join(_font_dir, 'LiberationSerif-Regular.ttf')))
 pdfmetrics.registerFont(TTFont('SerifBold',   os.path.join(_font_dir, 'LiberationSerif-Bold.ttf')))
 pdfmetrics.registerFont(TTFont('SerifItalic', os.path.join(_font_dir, 'LiberationSerif-Italic.ttf')))
@@ -46,8 +34,6 @@ IDEAL_CL = HexColor('#3a4a5a')
 W, H = A4
 MAR  = 18 * mm
 TW   = W - 2 * MAR
-
-
 def bg(c):
     c.setFillColor(BG); c.rect(0, 0, W, H, fill=1, stroke=0)
 
@@ -80,8 +66,6 @@ def wrap(c, txt, x, y, w, font='Serif', sz=10, col=CREAM, ld=15):
 
 def wh(txt, font, sz, w, ld=15):
     return len(simpleSplit(txt, font, sz, w)) * ld
-
-
 def draw_radar(c, cx, cy, R, scores):
     keys   = ['surfaceAlignment','internalAlignment','nextVersionAlignment','deathbedAlignment']
     angles = [90, 0, 270, 180]
@@ -133,8 +117,6 @@ def draw_radar(c, cx, cy, R, scores):
     c.setStrokeColor(IDEAL_CL); c.setLineWidth(0.8); c.setDash([2,3])
     c.rect(cx+2*mm, leg_y, 7, 4.5, stroke=1, fill=0); c.setDash([])
     c.drawString(cx+2*mm+9, leg_y+0.5, 'Fully aligned')
-
-
 def generate(data, path):
     c    = canvas.Canvas(path, pagesize=A4)
     name = data.get('firstName','You')
@@ -379,8 +361,6 @@ def generate(data, path):
 
     ftr(c, name); c.save()
     print(f"PDF saved: {path}")
-
-
 if __name__ == '__main__':
     if len(sys.argv) == 3:
         with open(sys.argv[1]) as f:
