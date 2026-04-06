@@ -92,7 +92,7 @@ ANALYSIS — 5 paragraphs. CRITICAL: Keep each paragraph to 3-4 sentences maximu
 
 P1: Open with their exact words from Q7 or Q14. No warmup. Name the pattern. Decode why that answer is the whole story. 2-3 sentences maximum.
 
-P2: The childhood installation. Use Q14 to name the exact deficit. Then name one specific real-world mechanism — not a generic scene like "good grades" or "making someone proud." Use their actual answers to infer the specific dynamic. What did they have to do or be to receive love? Connect directly to one other answer they gave — Q2, Q4, Q8, or Q10. No generic childhood imagery. If you cannot make it specific to their answers, make it shorter. 3-4 sentences maximum.
+P2: The childhood installation. Do not invent a scene. Do not mention grades, adults lighting up, or any imagery not in their answers. Instead: state the wound's mechanism as fact — what happens to a child when love is conditional on that specific deficit. Then immediately connect it to 2-3 of their actual answers as proof it is still running. The structure is: "When [wound mechanism happens], a child learns [belief]. That belief is still running. You answered [Q2 or Q8] and [Q4 or Q10] and [Q7]." The childhood reference explains the mechanism. Their adult answers are the evidence. Never speculate about what their childhood looked like. 3-4 sentences maximum.
 
 P3: The gap. Quote Q7, Q11, Q19 directly. Show the distance between what they are doing and what they actually are. No advice. Just the mirror. 3-4 sentences maximum.
 
