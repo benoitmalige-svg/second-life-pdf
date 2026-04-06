@@ -96,7 +96,7 @@ P2: The childhood installation. Do not invent a scene. Do not mention grades, ad
 
 P3: The gap. Quote Q7, Q11, Q19 directly. Show the distance between what they are doing and what they actually are. No advice. Just the mirror. 3-4 sentences maximum.
 
-P4: Who they actually are. Use only their exact words from Q14 and Q19. Do not editorialize or add words they did not write. Do not use phrases like "that's who you actually are" or "that person." Just name what their answers reveal, using their language. If Q14 says "to have time" then time is the word. Stay inside their vocabulary completely. 2-3 sentences maximum.
+P4: Who they actually are. Use their exact words from Q14 and Q19. Name what those answers reveal about who they actually are underneath the performance. End with one sentence that makes them feel that this clarity is not new — they have always known this. It was just buried. The feeling to create: relief mixed with recognition. Not hope. Not inspiration. Just: yes, I already knew this. 2-3 sentences maximum.
 
 P5: Two groups. 247 woven naturally. End with first name. Then exactly: There is one more piece I want you to read. It is about why the clarity you are feeling right now almost never becomes change on its own and what the people who actually shift do differently. Maximum 4 sentences total.
 
