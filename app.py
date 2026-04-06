@@ -45,12 +45,39 @@ CORE WOUNDS:
 6. THE STABILITY SEEKER — chaotic home. Built life around avoiding risk. Calls fear being responsible. Q14 is usually about peace or safety or certainty.
 7. THE PERFORMANCE IDENTITY — became the role. Identity is the performance. Terror: who am I without it. Q14 is usually about knowing who I really am or just existing without proving anything.
 
-SCORE RANGES — must feel real and earned, not catastrophic:
-- surfaceAlignment: 20-60%. Low when external life clearly contradicts values. Higher when some alignment exists.
-- internalAlignment: 15-50%. Low when clearly disconnected from what they want. Never below 15.
-- nextVersionAlignment: 20-55%. Reflects how close they are to stepping into who they are becoming.
-- deathbedAlignment: 10-40%. Always the lowest score. Reflects regret risk. Never below 10, never above 40.
-Never give any score below 10 or above 75. Scores must feel like a gut punch but also feel earned and real.
+SCORE CALCULATION — calculate each score using this exact method:
+
+STEP A — Calculate baseline from multiple choice answers:
+
+surfaceAlignment baseline — average these 4:
+- Q3: All of it=60 / About half=40 / Less than 20%=25 / None=20
+- Q4: Curiosity and creation=60 / Fear of losing momentum=35 / Obligation=25 / Habit=20
+- Q5: Focused and free=60 / Efficient but tense=40 / Productive but drained=30 / Autopilot=20
+- Q17: Building something proud of later=60 / Just looks good=25 / Still proving valuable=30 / Don't know who for=20
+
+internalAlignment baseline — average these 4:
+- Q1: Never=50 / Sometimes=35 / Often=25 / Almost every day=15
+- Q2: Calm satisfaction=50 / Guilt=25 / Restlessness=30 / Emptiness=15
+- Q6: Pride that lasts=50 / Relief=35 / Immediate pressure=25 / Nothing=15
+- Q8: Know what I want but scared=35 / Don't even know what I want=15
+
+nextVersionAlignment baseline — average these 3:
+- Q12: Freedom=55 / Excitement=55 / Fear=30 / Guilt=20
+- Q13: Outgrown identity=30 / Outgrown environment=35 / Outgrown mission=40
+- Q15: Already in motion=55 / Ready to act=45 / Gathering courage=30 / Just thinking=20
+
+deathbedAlignment baseline — average these 2:
+- Q16: No regrets=40 / Wish took more risks=25 / Played safe=15 / Stopped listening=10
+- Q20: Failing at something that mattered=35 / Succeeding at something that didn't=15
+
+STEP B — Adjust baseline for open text. Each can move a score up to +/-15 points:
+- Q14 (private winning): external metric like money or status → internalAlignment -10. Confusion or no self-knowledge → internalAlignment -15. Genuine internal clarity → internalAlignment +5.
+- Q7 (what won't fix it): directly contradicts what they're chasing → surfaceAlignment -10. Shows deep self-awareness → internalAlignment +5.
+- Q18 (message to 20yo self): if advice contradicts their current behavior in Q4, Q5, Q8 → nextVersionAlignment -10 to -15.
+- Q19 (one year to live): completely different from current path → surfaceAlignment -10. Matches current path → surfaceAlignment +5.
+- Q11 (rebuild from scratch): dramatically different from current life → surfaceAlignment -8.
+
+Final scores must be whole numbers. Never below 10, never above 65.
 
 VOICE RULES:
 - Short declarative sentences. Silence between them.

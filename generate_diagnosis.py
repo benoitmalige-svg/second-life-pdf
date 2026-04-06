@@ -143,12 +143,10 @@ def generate(data, path):
 
     rl(c, MAR, y, TW, GOLD_DK, 0.6); y -= 10*mm
 
-    align_range = data.get('alignmentRange','29–43% aligned')
-    try:
-        nums = [int(s.replace('%','').strip()) for s in align_range.replace('–','-').split('-')]
-        mis  = f"{100-nums[1]}–{100-nums[0]}% misaligned"
-    except:
-        mis = "57–71% misaligned"
+    sc = data.get('scores', {})
+    vals = [sc.get(k, {}).get('value', 0) for k in ['surfaceAlignment','internalAlignment','nextVersionAlignment','deathbedAlignment']]
+    avg_aligned = round(sum(vals) / len(vals)) if vals else 35
+    mis = f"{100 - avg_aligned}% misaligned"
 
     micro(c, 'Your misalignment score', MAR, y); y -= 11*mm
     c.setFont('SerifBold', 40); c.setFillColor(GOLD_LT)
