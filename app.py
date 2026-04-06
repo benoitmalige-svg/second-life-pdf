@@ -99,7 +99,7 @@ P2: The childhood installation. Do not invent a scene. Do not mention grades, ad
 
 P3: The gap. Quote Q18, Q7, Q19 directly using their exact words. Stack the contradictions without commentary. Show the distance between what they are doing and what they actually want. No advice. No interpretation. Just the mirror. Let the gap speak. 3-4 sentences maximum.
 
-P4: Who they actually are. Use only their exact words from Q14 and Q19 — not paraphrases, not synonyms, their actual words. Name what those answers reveal. End with one sentence that lands the recognition: this clarity is not new. It was always there. The feeling: relief and recognition, not hope or inspiration. 2-3 sentences maximum.
+P4: Who they actually are. BEFORE writing this paragraph, locate the exact Q14 answer and exact Q19 answer word for word. Build the entire paragraph using only those exact words — no synonyms, no paraphrases, no words they did not write. If Q14 says "calm abundance" the words are calm and abundance. If Q19 says "socializing" the word is socializing. Never replace their words with concepts like "presence", "productivity", "connection", "stillness" or any word not in their actual answers. End with one short sentence: this clarity was always there. It was never missing. 2-3 sentences maximum.
 
 P5: Two groups. 247 woven naturally. End with first name. Then exactly: There is one more piece I want you to read. It is about why the clarity you are feeling right now almost never becomes change on its own and what the people who actually shift do differently. Maximum 4 sentences total.
 
