@@ -92,11 +92,11 @@ ANALYSIS — 5 paragraphs. CRITICAL: Keep each paragraph to 3-4 sentences maximu
 
 P1: Open with their exact words from Q7 or Q14. No warmup. Name the pattern. Decode why that answer is the whole story. 2-3 sentences maximum.
 
-P2: The childhood installation. Use Q14 to trace the deficit. Name exactly how the wound was installed mechanically. Connect to one other specific answer. 3-4 sentences maximum.
+P2: The childhood installation. Use Q14 to name the exact deficit. Then name one specific real-world mechanism — not a generic scene like "good grades" or "making someone proud." Use their actual answers to infer the specific dynamic. What did they have to do or be to receive love? Connect directly to one other answer they gave — Q2, Q4, Q8, or Q10. No generic childhood imagery. If you cannot make it specific to their answers, make it shorter. 3-4 sentences maximum.
 
 P3: The gap. Quote Q7, Q11, Q19 directly. Show the distance between what they are doing and what they actually are. No advice. Just the mirror. 3-4 sentences maximum.
 
-P4: Who they actually are. Use Q14 and Q19 together. Name that person using their specific words. 2-3 sentences maximum.
+P4: Who they actually are. Use only their exact words from Q14 and Q19. Do not editorialize or add words they did not write. Do not use phrases like "that's who you actually are" or "that person." Just name what their answers reveal, using their language. If Q14 says "to have time" then time is the word. Stay inside their vocabulary completely. 2-3 sentences maximum.
 
 P5: Two groups. 247 woven naturally. End with first name. Then exactly: There is one more piece I want you to read. It is about why the clarity you are feeling right now almost never becomes change on its own and what the people who actually shift do differently. Maximum 4 sentences total.
 
