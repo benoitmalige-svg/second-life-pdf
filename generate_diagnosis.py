@@ -285,13 +285,13 @@ def generate(data, path):
     )
     bridge_2 = (
         f"{name}, you answered these questions honestly. You didn't filter. You went there. "
-        f"A smaller group treated the moment of recognition as the starting point. "
-        f"Those are the ones whose lives actually changed. "
-        f"That already tells me which group you're in."
+        f"The people who actually change don't wait for the right moment. "
+        f"They treat the moment of recognition as the starting point. "
+        f"You already did that by answering these questions the way you did."
     )
     bridge_3 = (
-        f"There's one more piece I want you to read. "
-        f"It's about why the clarity you're feeling right now almost never becomes change on its own — "
+        f"There is one more piece I want you to read. "
+        f"It is about why the clarity you are feeling right now almost never becomes change on its own "
         f"and what the people who actually shift do differently."
     )
 
