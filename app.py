@@ -108,6 +108,62 @@ OUTPUT: valid JSON only. No markdown. No preamble.
 def health():
     return jsonify({'status': 'ok'})
 
+
+def calculate_baselines(fields):
+    def get(partial):
+        for k, v in fields.items():
+            if partial.lower() in k.lower():
+                if isinstance(v, list):
+                    return v[0].lower() if v else ""
+                return str(v).lower()
+        return ""
+
+    q1 = get("should feel happier")
+    q1s = 50 if "never" in q1 else 35 if "sometimes" in q1 else 25 if "often" in q1 else 15
+
+    q2 = get("stop working")
+    q2s = 50 if "calm" in q2 else 30 if "restless" in q2 else 25 if "guilt" in q2 else 15
+
+    q3 = get("money stopped mattering")
+    q3s = 60 if "all of it" in q3 else 40 if "about half" in q3 else 25 if "20" in q3 else 20
+
+    q4 = get("driving you more")
+    q4s = 60 if "curiosity" in q4 else 35 if "fear" in q4 else 25 if "obligation" in q4 else 20
+
+    q5 = get("daily energy")
+    q5s = 60 if "focused and free" in q5 else 40 if "efficient" in q5 else 30 if "productive" in q5 else 20
+
+    q6 = get("hit a new goal")
+    q6s = 50 if "pride" in q6 else 35 if "relief" in q6 else 25 if "pressure" in q6 else 15
+
+    q8 = get("which answer feels truer")
+    q8s = 15 if "don" in q8 and "know" in q8 else 35
+
+    q12 = get("imagine doing that")
+    q12s = 55 if "freedom" in q12 or "excitement" in q12 else 30 if "fear" in q12 else 20
+
+    q13 = get("bottleneck")
+    q13s = 30 if "identity" in q13 else 40 if "mission" in q13 else 35
+
+    q15 = get("how ready")
+    q15s = 55 if "already in motion" in q15 else 45 if "ready to act" in q15 else 30 if "gathering" in q15 else 20
+
+    q16 = get("end of your life")
+    q16s = 40 if "no regrets" in q16 or "used everything" in q16 else 25 if "more risks" in q16 else 15 if "played safe" in q16 else 10
+
+    q17 = get("which truth hits closer")
+    q17s = 60 if "proud" in q17 else 25 if "looks good" in q17 else 30 if "proving" in q17 else 20
+
+    q20 = get("all said and done")
+    q20s = 35 if "failing" in q20 else 15
+
+    return {
+        "surfaceBaseline":      round((q3s + q4s + q5s + q17s) / 4),
+        "internalBaseline":     round((q1s + q2s + q6s + q8s) / 4),
+        "nextVersionBaseline":  round((q12s + q13s + q15s) / 3),
+        "deathbedBaseline":     round((q16s + q20s) / 2),
+    }
+
 @app.route('/tally', methods=['POST'])
 def tally_webhook():
     try:
@@ -120,6 +176,15 @@ def tally_webhook():
                     v = v[0] if len(v) == 1 else ', '.join(str(x) for x in v)
                 lines.append(f"{k}: {v}")
         user_msg = '\n'.join(lines)
+        baselines = calculate_baselines(fields)
+        user_msg += (
+            f"\n\nCALCULATED SCORE BASELINES — these are computed from the multiple choice answers. "
+            f"Use them as your exact starting point. Only adjust each score by up to 15 points based on open text answers (Q7, Q11, Q14, Q18, Q19).\n"
+            f"surfaceAlignment baseline: {baselines['surfaceBaseline']}\n"
+            f"internalAlignment baseline: {baselines['internalBaseline']}\n"
+            f"nextVersionAlignment baseline: {baselines['nextVersionBaseline']}\n"
+            f"deathbedAlignment baseline: {baselines['deathbedBaseline']}"
+        )
         client = anthropic.Anthropic(api_key=os.environ['ANTHROPIC_API_KEY'])
         resp = client.messages.create(
             model="claude-sonnet-4-20250514",
