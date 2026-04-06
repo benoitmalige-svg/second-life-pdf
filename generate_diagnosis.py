@@ -186,9 +186,7 @@ def generate(data, path):
 
     wy = y - 5*mm
     micro(c, 'The Original Program', MAR+5*mm, wy, GOLD); wy -= 6*mm
-    c.setFont('SerifBold', 13); c.setFillColor(CREAM)
-    c.drawString(MAR+5*mm, wy, wound.get('name','')); wy -= 7*mm
-    wy = wrap(c, f'"{wound.get("belief","")}"', MAR+5*mm, wy, TW-10*mm, 'SerifItalic', 9, CREAM_DM, 12)
+    wy = wrap(c, f'"{wound.get("belief","")}"', MAR+5*mm, wy, TW-10*mm, 'SerifItalic', 11, CREAM, 14)
     wy -= 3*mm
     wy = wrap(c, wound.get('origin',''), MAR+5*mm, wy, TW-10*mm, 'Serif', 8.5, CREAM_DM, 11)
     wy -= 3*mm
