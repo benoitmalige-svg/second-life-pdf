@@ -342,15 +342,21 @@ def generate(data, path):
     rl(c, MAR+5*mm, cy2, TW-10*mm, RULE, 0.3)
     cy2 -= 6*mm
     cy2 = wrap(c, bridge_3, MAR+5*mm, cy2, TW-10*mm, 'SerifItalic', 9.5, CREAM, 15)
-    cy2 -= 6*mm
-    link = 'Read: The Awareness Trap  →'
-    c.setFont('SansBold', 8); c.setFillColor(GOLD)
-    c.drawString(MAR+5*mm, cy2, link)
-    lw = c.stringWidth(link, 'SansBold', 8)
-    c.linkURL('https://dep-awareness.carrd.co',
-              (MAR+5*mm, cy2-2, MAR+5*mm+lw, cy2+9), relative=0)
 
-    y = y - total_card_h - 8*mm
+    y = y - total_card_h - 10*mm
+
+    # ── Full-width CTA button ─────────────────────────────────────────────
+    btn_h = 14*mm
+    btn_y = y - btn_h
+    c.setFillColor(GOLD)
+    c.roundRect(MAR, btn_y, TW, btn_h, 3, fill=1, stroke=0)
+    btn_label = 'Read: The Awareness Trap  →'
+    c.setFont('SansBold', 11); c.setFillColor(HexColor('#0c0c0a'))
+    c.drawCentredString(W/2, btn_y + btn_h/2 - 4, btn_label)
+    c.linkURL('https://dep-awareness.carrd.co',
+              (MAR, btn_y, MAR+TW, btn_y+btn_h), relative=0)
+
+    y = btn_y - 10*mm
     rl(c, MAR, y, TW); y -= 7*mm
     micro(c, 'Important Notice', MAR, y); y -= 6*mm
     wrap(c, disc, MAR, y, TW, 'Sans', 7, CREAM_DM, 10)
