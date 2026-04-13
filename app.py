@@ -120,7 +120,7 @@ def tally_webhook():
                     v = v[0] if len(v) == 1 else ', '.join(str(x) for x in v)
                 lines.append(f"{k}: {v}")
         user_msg = '\n'.join(lines)
-        client = anthropic.Anthropic(api_key=os.environ['ANTHROPIC_API_KEY'])
+        client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"], max_retries=5)
         resp = client.messages.create(
             model="claude-sonnet-4-20250514",
             max_tokens=3500,
