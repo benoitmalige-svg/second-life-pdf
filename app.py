@@ -121,12 +121,21 @@ def tally_webhook():
                 lines.append(f"{k}: {v}")
         user_msg = '\n'.join(lines)
         client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"], max_retries=5)
-        resp = client.messages.create(
-            model="claude-sonnet-4-20250514",
-            max_tokens=3500,
-            system=SYSTEM_PROMPT,
-            messages=[{"role": "user", "content": user_msg}]
-        )
+        resp = None
+        for attempt in range(8):
+            try:
+                resp = client.messages.create(
+                    model="claude-sonnet-4-20250514",
+                    max_tokens=3500,
+                    system=SYSTEM_PROMPT,
+                    messages=[{"role": "user", "content": user_msg}]
+                )
+                break
+            except Exception as e:
+                if '529' in str(e) and attempt < 7:
+                    import time; time.sleep(30)
+                    continue
+                raise
         raw = resp.content[0].text.strip().replace('```json', '').replace('```', '').strip()
         diagnosis = json.loads(raw)
         tmp = tempfile.NamedTemporaryFile(suffix='.pdf', delete=False)
