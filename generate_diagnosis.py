@@ -11,8 +11,6 @@ import json
 import sys
 import os
 
-# ── Font registration (auto-download Liberation fonts) ──────────────────────
-
 _font_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'fonts')
 pdfmetrics.registerFont(TTFont('Serif',       os.path.join(_font_dir, 'LiberationSerif-Regular.ttf')))
 pdfmetrics.registerFont(TTFont('SerifBold',   os.path.join(_font_dir, 'LiberationSerif-Bold.ttf')))
@@ -34,6 +32,7 @@ IDEAL_CL = HexColor('#3a4a5a')
 W, H = A4
 MAR  = 18 * mm
 TW   = W - 2 * MAR
+
 def bg(c):
     c.setFillColor(BG); c.rect(0, 0, W, H, fill=1, stroke=0)
 
@@ -48,8 +47,8 @@ def ftr(c, name):
     c.setStrokeColor(RULE); c.setLineWidth(0.3)
     c.line(MAR, 16*mm, W - MAR, 16*mm)
     c.setFont('Sans', 6); c.setFillColor(HexColor('#302e28'))
-    c.drawString(MAR, 11*mm, 'CONFIDENTIAL — For personal reflection only. Not medical or psychological advice.')
-    c.drawRightString(W - MAR, 11*mm, f'Identity Diagnosis — {name}')
+    c.drawString(MAR, 11*mm, 'CONFIDENTIAL - For personal reflection only. Not medical or psychological advice.')
+    c.drawRightString(W - MAR, 11*mm, 'Identity Diagnosis - ' + name)
 
 def rl(c, x, y, w=None, col=RULE, t=0.35):
     if w is None: w = TW
@@ -66,6 +65,7 @@ def wrap(c, txt, x, y, w, font='Serif', sz=10, col=CREAM, ld=15):
 
 def wh(txt, font, sz, w, ld=15):
     return len(simpleSplit(txt, font, sz, w)) * ld
+
 def draw_radar(c, cx, cy, R, scores):
     keys   = ['surfaceAlignment','internalAlignment','nextVersionAlignment','deathbedAlignment']
     angles = [90, 0, 270, 180]
@@ -117,6 +117,7 @@ def draw_radar(c, cx, cy, R, scores):
     c.setStrokeColor(IDEAL_CL); c.setLineWidth(0.8); c.setDash([2,3])
     c.rect(cx+2*mm, leg_y, 7, 4.5, stroke=1, fill=0); c.setDash([])
     c.drawString(cx+2*mm+9, leg_y+0.5, 'Fully aligned')
+
 def generate(data, path):
     c    = canvas.Canvas(path, pagesize=A4)
     name = data.get('firstName','You')
@@ -136,17 +137,18 @@ def generate(data, path):
     y -= 9*mm
 
     c.setFont('SansBold', 9); c.setFillColor(GOLD)
-    c.drawString(MAR, y, f'— {name}')
+    c.drawString(MAR, y, '- ' + name)
     c.setFont('Sans', 8); c.setFillColor(CREAM_DM)
     c.drawRightString(W-MAR, y, today)
     y -= 7*mm
 
     rl(c, MAR, y, TW, GOLD_DK, 0.6); y -= 10*mm
 
-    sc = data.get('scores', {})
-    vals = [sc.get(k, {}).get('value', 0) for k in ['surfaceAlignment','internalAlignment','nextVersionAlignment','deathbedAlignment']]
-    avg_aligned = round(sum(vals) / len(vals)) if vals else 35
-    mis = f"{100 - avg_aligned}% misaligned"
+    sc_cover = data.get('scores', {})
+    score_vals = [sc_cover.get(k, {}).get('value', 0) for k in ['surfaceAlignment','internalAlignment','nextVersionAlignment','deathbedAlignment']]
+    avg_alignment = sum(score_vals) / 4 if any(score_vals) else 30
+    mis_pct = int(round(100 - avg_alignment))
+    mis = str(mis_pct) + '% misaligned'
 
     micro(c, 'Your misalignment score', MAR, y); y -= 11*mm
     c.setFont('SerifBold', 40); c.setFillColor(GOLD_LT)
@@ -159,7 +161,7 @@ def generate(data, path):
     y = wrap(c, data.get('introContext',''), MAR, y, TW, 'Serif', 9.5, CREAM_DM, 14)
     y -= 5*mm
     c.setFont('SerifItalic', 9); c.setFillColor(GOLD)
-    c.drawString(MAR, y, 'Read what follows slowly. Some of it will sting. That\'s how you\'ll know it\'s accurate.')
+    c.drawString(MAR, y, "Read what follows slowly. Some of it will sting. That's how you'll know it's accurate.")
     y -= 12*mm
 
     rl(c, MAR, y, TW); y -= 10*mm
@@ -171,13 +173,13 @@ def generate(data, path):
 
     ftr(c, name); c.showPage()
 
-    bg(c); hdr(c, 'THE SECOND LIFE', f'{name.upper()} — PATTERN ANALYSIS')
+    bg(c); hdr(c, 'THE SECOND LIFE', name.upper() + ' - PATTERN ANALYSIS')
     y = H - 21*mm
 
     wound  = data.get('wound',{})
-    belief_h = wh(f'"{wound.get("belief","")}"', 'SerifItalic', 9, TW-10*mm, 12)
+    belief_h = wh('"' + wound.get('belief','') + '"', 'SerifItalic', 9, TW-10*mm, 12)
     origin_h = wh(wound.get('origin',''), 'Serif', 8.5, TW-10*mm, 11)
-    adult_h  = wh('Now: '+wound.get('adultSignature',''), 'SansBold', 7.5, TW-10*mm, 10)
+    adult_h  = wh('Now: ' + wound.get('adultSignature',''), 'SansBold', 7.5, TW-10*mm, 10)
     card_h   = belief_h + origin_h + adult_h + 24*mm
 
     c.setFillColor(CARD)
@@ -186,11 +188,13 @@ def generate(data, path):
 
     wy = y - 5*mm
     micro(c, 'The Original Program', MAR+5*mm, wy, GOLD); wy -= 6*mm
-    wy = wrap(c, f'"{wound.get("belief","")}"', MAR+5*mm, wy, TW-10*mm, 'SerifItalic', 11, CREAM, 14)
+    c.setFont('SerifBold', 13); c.setFillColor(CREAM)
+    c.drawString(MAR+5*mm, wy, wound.get('name','')); wy -= 7*mm
+    wy = wrap(c, '"' + wound.get('belief','') + '"', MAR+5*mm, wy, TW-10*mm, 'SerifItalic', 9, CREAM_DM, 12)
     wy -= 3*mm
     wy = wrap(c, wound.get('origin',''), MAR+5*mm, wy, TW-10*mm, 'Serif', 8.5, CREAM_DM, 11)
     wy -= 3*mm
-    wrap(c, 'Now: '+wound.get('adultSignature',''), MAR+5*mm, wy, TW-10*mm, 'SansBold', 7.5, GOLD, 10)
+    wrap(c, 'Now: ' + wound.get('adultSignature',''), MAR+5*mm, wy, TW-10*mm, 'SansBold', 7.5, GOLD, 10)
 
     y = y - card_h - 7*mm
 
@@ -203,7 +207,7 @@ def generate(data, path):
         micro(c, 'Living like', MAR+3*mm, y-3.5*mm, CREAM_DM)
         wrap(c, gap.get('living',''), MAR+3*mm, y-8*mm, col_w-5*mm, 'Serif', 7.5, CREAM, 10)
         c.setFont('SansBold', 9); c.setFillColor(GOLD_LT)
-        c.drawCentredString(MAR+col_w+4*mm, y-rh/2, '→')
+        c.drawCentredString(MAR+col_w+4*mm, y-rh/2, '\u2192')
         rx = MAR+col_w+8*mm
         c.setFillColor(CARD); c.roundRect(rx, y-rh, col_w, rh, 2, fill=1, stroke=0)
         c.setFillColor(GOLD_DK); c.rect(rx, y-rh, 2, rh, fill=1, stroke=0)
@@ -239,7 +243,7 @@ def generate(data, path):
         why = s.get('why','')
         micro(c, lbl, score_x, sy)
         c.setFont('SerifBold', 14); c.setFillColor(GOLD_LT)
-        c.drawRightString(score_x+score_w, sy+2, f"{val}%")
+        c.drawRightString(score_x+score_w, sy+2, str(val) + '%')
         sy -= 7
         c.setFont('SerifItalic', 6.5); c.setFillColor(HexColor('#3a3830'))
         c.drawString(score_x, sy, exp); sy -= 7
@@ -255,7 +259,7 @@ def generate(data, path):
 
     insight_y   = min(radar_cy - 24*mm, sy) - 12*mm
     belief_text = wound.get('belief','')
-    insight_h   = wh(f'"{belief_text}"', 'SerifItalic', 10.5, TW-12*mm, 15) + 14*mm
+    insight_h   = wh('"' + belief_text + '"', 'SerifItalic', 10.5, TW-12*mm, 15) + 14*mm
 
     if insight_y - insight_h > 22*mm:
         c.setFillColor(HexColor('#0f0f0d'))
@@ -263,34 +267,21 @@ def generate(data, path):
         c.setFillColor(GOLD_DK)
         c.rect(MAR, insight_y-insight_h, 2, insight_h, fill=1, stroke=0)
         micro(c, 'The belief running your life', MAR+6*mm, insight_y-5*mm, CREAM_DM)
-        wrap(c, f'"{belief_text}"', MAR+6*mm, insight_y-11*mm, TW-12*mm, 'SerifItalic', 10.5, CREAM_DM, 15)
+        wrap(c, '"' + belief_text + '"', MAR+6*mm, insight_y-11*mm, TW-12*mm, 'SerifItalic', 10.5, CREAM_DM, 15)
 
     ftr(c, name); c.showPage()
 
-    bg(c); hdr(c, 'THE SECOND LIFE', f'{name.upper()} — FULL ANALYSIS')
+    bg(c); hdr(c, 'THE SECOND LIFE', name.upper() + ' - FULL ANALYSIS')
     y = H - 21*mm
     micro(c, 'Full Analysis', MAR, y); y -= 9*mm
 
     raw_paras  = [p.strip() for p in data.get('analysis','').split('\n\n') if p.strip()]
-    body_paras = raw_paras[:-1]
+    body_paras = raw_paras
 
-    bridge_1 = (
-        f"I've worked with hundreds of people who got to exactly this moment. "
-        f"Read something that named their pattern, felt it land, recognized themselves completely. "
-        f"Most sat with that feeling and moved on. "
-        f"On average it takes people 247 days between the moment they understand what's running their life "
-        f"and the moment they actually do something about it."
-    )
-    bridge_2 = (
-        f"{name}, you answered these questions honestly. You didn't filter. You went there. "
-        f"The people who actually change don't wait for the right moment. "
-        f"They treat the moment of recognition as the starting point. "
-        f"You already did that by answering these questions the way you did."
-    )
-    bridge_3 = (
-        f"There is one more piece I want you to read. "
-        f"It is about why the clarity you are feeling right now almost never becomes change on its own "
-        f"and what the people who actually shift do differently."
+    bridge_cta = (
+        "There's one more piece I want you to read. "
+        "It's about why the clarity you're feeling right now almost never becomes change on its own. "
+        "And what the people who actually shift do differently."
     )
 
     disc = ("This document is a reflective tool for personal insight only. It is not a clinical assessment, "
@@ -302,17 +293,15 @@ def generate(data, path):
             "this document you acknowledge that it is intended for self-reflection purposes only and that you "
             "assume full responsibility for any decisions made as a result of reading it.")
 
-    b1h = wh(bridge_1, 'Serif', 9.5, TW-10*mm, 15)
-    b2h = wh(bridge_2, 'Serif', 9.5, TW-10*mm, 15)
-    b3h = wh(bridge_3, 'Serif', 9.5, TW-10*mm, 15)
-    bridge_card_h = b1h + b2h + b3h + 38*mm
+    bcta_h = wh(bridge_cta, 'SerifItalic', 9.5, TW-10*mm, 15)
+    bridge_card_h = bcta_h + 34*mm
     disc_h = wh(disc, 'Sans', 7, TW, 10) + 14*mm
 
     for i, para in enumerate(body_paras):
         est_h = wh(para, 'Serif', 10.5, TW, 17) + 14*mm
         if y - est_h < 22*mm:
             ftr(c, name); c.showPage()
-            bg(c); hdr(c, 'THE SECOND LIFE', f'{name.upper()} — FULL ANALYSIS')
+            bg(c); hdr(c, 'THE SECOND LIFE', name.upper() + ' - FULL ANALYSIS')
             y = H - 21*mm
         y = wrap(c, para, MAR, y, TW, 'Serif', 10.5, CREAM, 17)
         y -= 10*mm
@@ -323,46 +312,37 @@ def generate(data, path):
 
     if y - bridge_card_h - disc_h < 22*mm:
         ftr(c, name); c.showPage()
-        bg(c); hdr(c, 'THE SECOND LIFE', f'{name.upper()} — FULL ANALYSIS')
+        bg(c); hdr(c, 'THE SECOND LIFE', name.upper() + ' - FULL ANALYSIS')
         y = H - 21*mm
 
-    total_card_h = b1h + b2h + b3h + 36*mm
+    total_card_h = bcta_h + 32*mm
     c.setFillColor(CARD)
     c.roundRect(MAR, y-total_card_h, TW, total_card_h, 3, fill=1, stroke=0)
     c.setFillColor(GOLD_DK)
     c.rect(MAR, y-total_card_h, 2.5, total_card_h, fill=1, stroke=0)
 
     cy2 = y - 5*mm
-    cy2 = wrap(c, bridge_1, MAR+5*mm, cy2, TW-10*mm, 'Serif', 9.5, CREAM_DM, 15)
-    cy2 -= 5*mm
-    rl(c, MAR+5*mm, cy2, TW-10*mm, RULE, 0.3)
-    cy2 -= 6*mm
-    cy2 = wrap(c, bridge_2, MAR+5*mm, cy2, TW-10*mm, 'Serif', 9.5, CREAM, 15)
-    cy2 -= 5*mm
-    rl(c, MAR+5*mm, cy2, TW-10*mm, RULE, 0.3)
-    cy2 -= 6*mm
-    cy2 = wrap(c, bridge_3, MAR+5*mm, cy2, TW-10*mm, 'SerifItalic', 9.5, CREAM, 15)
-
-    y = y - total_card_h - 10*mm
-
-    # ── Full-width CTA button ─────────────────────────────────────────────
-    btn_h = 14*mm
-    btn_y = y - btn_h
+    cy2 = wrap(c, bridge_cta, MAR+5*mm, cy2, TW-10*mm, 'SerifItalic', 9.5, CREAM, 15)
+    cy2 -= 9*mm
+    btn_h = 10*mm
+    btn_w = 75*mm
+    btn_x = MAR + (TW - btn_w) / 2
+    btn_y = cy2 - btn_h
     c.setFillColor(GOLD)
-    c.roundRect(MAR, btn_y, TW, btn_h, 3, fill=1, stroke=0)
-    btn_label = 'Read: The Awareness Trap  →'
-    c.setFont('SansBold', 11); c.setFillColor(HexColor('#0c0c0a'))
-    c.drawCentredString(W/2, btn_y + btn_h/2 - 4, btn_label)
+    c.roundRect(btn_x, btn_y, btn_w, btn_h, 2, fill=1, stroke=0)
+    c.setFont('SansBold', 10); c.setFillColor(BG)
+    c.drawCentredString(btn_x + btn_w/2, btn_y + btn_h/2 - 2.5, 'READ: THE AWARENESS TRAP  \u2192')
     c.linkURL('https://dep-awareness.carrd.co',
-              (MAR, btn_y, MAR+TW, btn_y+btn_h), relative=0)
+              (btn_x, btn_y, btn_x + btn_w, btn_y + btn_h), relative=0)
 
-    y = btn_y - 10*mm
+    y = y - total_card_h - 8*mm
     rl(c, MAR, y, TW); y -= 7*mm
     micro(c, 'Important Notice', MAR, y); y -= 6*mm
     wrap(c, disc, MAR, y, TW, 'Sans', 7, CREAM_DM, 10)
 
     ftr(c, name); c.save()
-    print(f"PDF saved: {path}")
+    print('PDF saved: ' + path)
+
 if __name__ == '__main__':
     if len(sys.argv) == 3:
         with open(sys.argv[1]) as f:
