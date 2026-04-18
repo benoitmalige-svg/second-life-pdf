@@ -294,7 +294,7 @@ def generate(data, path):
             "assume full responsibility for any decisions made as a result of reading it.")
 
     bcta_h = wh(bridge_cta, 'SerifItalic', 9.5, TW-10*mm, 15)
-    bridge_card_h = bcta_h + 34*mm
+    bridge_card_h = bcta_h + 44*mm
     disc_h = wh(disc, 'Sans', 7, TW, 10) + 14*mm
 
     for i, para in enumerate(body_paras):
@@ -315,7 +315,7 @@ def generate(data, path):
         bg(c); hdr(c, 'THE SECOND LIFE', name.upper() + ' - FULL ANALYSIS')
         y = H - 21*mm
 
-    total_card_h = bcta_h + 32*mm
+    total_card_h = bcta_h + 42*mm
     c.setFillColor(CARD)
     c.roundRect(MAR, y-total_card_h, TW, total_card_h, 3, fill=1, stroke=0)
     c.setFillColor(GOLD_DK)
@@ -334,6 +334,16 @@ def generate(data, path):
     c.drawCentredString(btn_x + btn_w/2, btn_y + btn_h/2 - 2.5, 'READ: THE AWARENESS TRAP  \u2192')
     c.linkURL('https://dep-awareness.carrd.co',
               (btn_x, btn_y, btn_x + btn_w, btn_y + btn_h), relative=0)
+    fb_y = btn_y - 6*mm
+    c.setFont('Serif', 7.5); c.setFillColor(CREAM_DM)
+    c.drawCentredString(W/2, fb_y, "If the button doesn't work, visit")
+    fb_y -= 4*mm
+    url_text = 'dep-awareness.carrd.co'
+    c.setFont('SansBold', 8); c.setFillColor(GOLD)
+    c.drawCentredString(W/2, fb_y, url_text)
+    url_w = c.stringWidth(url_text, 'SansBold', 8)
+    c.linkURL('https://dep-awareness.carrd.co',
+              (W/2 - url_w/2, fb_y-2, W/2 + url_w/2, fb_y+9), relative=0)
 
     y = y - total_card_h - 8*mm
     rl(c, MAR, y, TW); y -= 7*mm
